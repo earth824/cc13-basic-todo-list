@@ -2,7 +2,7 @@ import { useState } from 'react';
 import validator from 'validator';
 
 function TodoForm(props) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(props.todo?.title || '');
   const [error, setError] = useState('');
 
   const handleSubmit = event => {
@@ -12,7 +12,9 @@ function TodoForm(props) {
     } else {
       setInput('');
       setError('');
-      props.createTodo(input);
+      props.createTodo?.(input);
+      props.updateTodo?.(props.todo.id, { title: input });
+      props.closeEdit?.();
     }
   };
 
@@ -32,7 +34,10 @@ function TodoForm(props) {
         <button
           type="button"
           className="btn btn-secondary"
-          onClick={() => setInput('')}
+          onClick={() => {
+            setInput('');
+            props.closeEdit?.();
+          }}
         >
           <i className="fa-solid fa-xmark" />
         </button>
