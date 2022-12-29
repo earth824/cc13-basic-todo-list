@@ -10,6 +10,18 @@ export default function todoReducer(state, action) {
     case FETCH_TODO: {
       return action.payload;
     }
+    case CREATE_TODO: {
+      return [action.payload, ...state];
+    }
+    case DELETE_TODO: {
+      return state.filter(el => el.id !== action.payload);
+    }
+    case UPDATE_TODO: {
+      const idx = state.findIndex(el => el.id === action.payload.id);
+      const newState = [...state];
+      newState[idx] = { ...newState[idx], ...action.payload.updateValue };
+      return newState;
+    }
     default:
       return state;
   }
