@@ -1,11 +1,15 @@
 import TodoForm from './TodoForm';
 import TodoContent from './TodoContent';
 
-export default function TodoItem() {
+export default function TodoItem(props) {
   return (
-    <li className="list-group-item p-3 text-bg-success">
+    <li
+      className={`list-group-item p-3 text-bg-${
+        props.todo.completed ? 'success' : 'danger'
+      }`}
+    >
       {/* <TodoForm /> */}
-      <TodoContent />
+      <TodoContent todo={props.todo} />
     </li>
   );
 }
