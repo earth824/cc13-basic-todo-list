@@ -1,16 +1,21 @@
-import TodoForm from './components/TodoForm';
-import TodoItem from './components/TodoItem';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
-  return (
-    <div className="container py-5" style={{ maxWidth: 576 }}>
-      <TodoForm />
-      <br />
-      <ul className="list-group">
-        <TodoItem />
-      </ul>
-    </div>
-  );
+  const router = createBrowserRouter([
+    {
+      element: <Layout />,
+      children: [
+        { path: '/', element: <HomePage /> },
+        { path: '/login', element: <LoginPage /> },
+        { path: '/register', element: <RegisterPage /> }
+      ]
+    }
+  ]);
+  return <RouterProvider router={router} />;
 }
 
 export default App;
