@@ -1,20 +1,16 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useTodo } from '../contexts/TodoContext';
 
 function TodoForm() {
   const [title, setTitle] = useState('');
+  const { createTodo } = useTodo();
 
   const handleSubmitForm = e => {
     e.preventDefault();
     // 1. validate
     // 2. set request to server
-    axios.post(
-      'http://localhost:8013/todos',
-      { title },
-      {
-        headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-      }
-    );
+    createTodo(title);
   };
   return (
     <form onSubmit={handleSubmitForm}>
