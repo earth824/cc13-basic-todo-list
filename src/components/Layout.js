@@ -1,6 +1,15 @@
-import { Outlet, Link, NavLink } from 'react-router-dom';
+import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Layout() {
+  const { isLogged, logout } = useAuth();
+  const navigate = useNavigate();
+  const handleClickLogout = () => {
+    localStorage.removeItem('token');
+    logout();
+    navigate('/login');
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -12,15 +21,28 @@ export default function Layout() {
 
         <div className="navbar-collapse collapse">
           <div className="navbar-nav">
-            <NavLink className="nav-link" to="/">
-              Home
-            </NavLink>
-            <NavLink className="nav-link" to="/login">
-              Login
-            </NavLink>
-            <NavLink className="nav-link" to="/register">
-              Register
-            </NavLink>
+            {isLogged ? (
+              <>
+                <NavLink className="nav-link" to="/">
+                  Home
+                </NavLink>
+                <button
+                  className="btn nav-link border-0"
+                  onClick={handleClickLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink className="nav-link" to="/login">
+                  Login
+                </NavLink>
+                <NavLink className="nav-link" to="/register">
+                  Register
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </nav>
